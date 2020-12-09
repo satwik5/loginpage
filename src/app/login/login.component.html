@@ -1,0 +1,141 @@
+<div class="container">
+    <div class='text-center'>
+        <img [src]='imageUrl' title='home' class="img-logo" />
+    </div>
+
+    <div *ngIf="signin; else register" class="row auth-form">
+        <div class='col-lg-4 offset-lg-4'>
+            <form [formGroup]="signInForm" (ngSubmit)="onSignIn()" class="border rounded pad">
+                <div class='form-group'>
+                    <label>Email:</label>
+                    <input type="text" class="form-control" formControlName="loginname"
+                        [ngClass]="loginnamefromform.valid?'':signinClick?'is-invalid':''">
+                </div>
+                <div class='form-group'>
+                    <label>Password:
+                    </label>
+                    <input type="password" class="form-control" formControlName="loginpassword"
+                        [ngClass]="loginpasswordfromform.valid?'':signinClick?'is-invalid':''">
+                </div>
+                <div class='form-group'>
+                    <button class="btn btn-5d">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        Log in
+                    </button>
+                    <span class="info-error info-message">{{errorMessage}}</span>
+                    <span class="info-success info-message">{{successMsg}}</span>
+                </div>
+            </form>
+            <br>
+            <button (click)="navRegister()" class="btn btn-5d">Create your 5D solutions account</button>
+        </div>
+    </div>
+    <!--         New user form                        -->
+    <ng-template #register>
+        <div class="row auth-form">
+            <div class='col-lg-4 offset-lg-4'>
+                <form [formGroup]="signUpForm" (ngSubmit)="onSignUp()" class="border rounded pad form-group">
+                    <div class='form-group'>
+                        Full name<br>
+                        <input type='text' class="form-control name" formControlName='fullname' placeholder="name"
+                            required minlength="4" maxlength="30"
+                            [ngClass]="fullnamefromform.valid?'is-valid':signupClick?'is-invalid':''">
+                        <span
+                            *ngIf="signupClick && (fullnamefromform.invalid) && (fullnamefromform.dirty || fullnamefromform.touched)"
+                            class="info-error">
+                            <span *ngIf='fullnamefromform.errors?.required'>
+                                name required
+                            </span>
+                            <span *ngIf='fullnamefromform.errors?.minlength'>
+                                name need to be minimum of 4 letters
+                            </span>
+                        </span>
+                    </div>
+
+                    <div class='form-group'>
+                        Mobile number
+                        <input type='text' class="form-control" required maxlength="10" formControlName='mobile'
+                            placeholder="10 digit mobile number"
+                            [ngClass]="mobilefromform.valid?'is-valid':signupClick?'is-invalid':''">
+                        <span
+                            *ngIf="signupClick && mobilefromform.invalid && (mobilefromform.dirty ||mobilefromform.touched)"
+                            class="info-error">
+                            <span *ngIf='mobilefromform.errors?.required'>
+                                Mobile required
+                            </span>
+                            <span
+                                *ngIf='mobilefromform.errors?.pattern || mobilefromform.errors?.minlength || mobilefromform.errors?.maxlength'>
+                                Invalid Mobile Number
+                            </span>
+                        </span>
+                    </div>
+                    <div class='form-group'>
+                        Email
+                        <input type='email' class="form-control" formControlName='email' placeholder="abc@gmail.com"
+                            required [ngClass]="emailfromform.valid?'is-valid':signupClick?'is-invalid':''">
+                        <span
+                            *ngIf="signupClick && emailfromform.invalid && (emailfromform.dirty ||emailfromform.touched)"
+                            class="info-error">
+                            <span *ngIf='emailfromform.errors?.required'>
+                                Email required
+                            </span>
+                            <span *ngIf='emailfromform.errors?.pattern'>
+                                Invalid email format
+                            </span>
+                        </span>
+                    </div>
+                    <div class='form-group'>
+                        City<br>
+                        <input type='text' class="form-control name" formControlName='city' placeholder="city" required
+                            minlength="4" maxlength="16"
+                            [ngClass]="cityfromform.valid?'is-valid':signupClick?'is-invalid':''">
+                        <span
+                            *ngIf="signupClick && (cityfromform.invalid) && (cityfromform.dirty || cityfromform.touched)"
+                            class="info-error">
+                            <span *ngIf='cityfromform.errors?.required'>
+                                City required
+                            </span>
+                        </span>
+                    </div>
+
+                    <div class='form-group'>
+                        Password
+                        <input type='password' class="form-control" formControlName='password' required
+                            placeholder="atleast 6 characters"
+                            [ngClass]="passwordfromform.valid?'is-valid':signupClick?'is-invalid':''">
+                        <span
+                            *ngIf="signupClick && passwordfromform.invalid && (passwordfromform.dirty ||passwordfromform.touched)"
+                            class="info-error">
+                            <span *ngIf='passwordfromform.errors?.required'>
+                                password required
+                            </span>
+                            <span *ngIf='passwordfromform.errors?.minlength'>
+                                password must be atleast 6 chars
+                            </span>
+                        </span>
+                    </div>
+                    <div class='form-group'>
+                        Confirm Password
+                        <input type='password' class="form-control" formControlName='cpassword' required
+                            placeholder="atleast 6 characters"
+                            [ngClass]="cpasswordfromform.valid?'is-valid':signupClick?'is-invalid':''">
+                        <span
+                            *ngIf="signupClick && cpasswordfromform.invalid && (cpasswordfromform.dirty ||cpasswordfromform.touched)"
+                            class="info-error">
+                            <span *ngIf='cpasswordfromform.errors?.required'>
+                                password required
+                            </span>
+                            <span *ngIf='cpasswordfromform.errors?.minlength'>
+                                password must be atleast 6 chars
+                            </span>
+                        </span>
+                    </div>
+                    <button class="btn btn-5d"> <span *ngIf="loading"
+                            class="spinner-border spinner-border-sm mr-1"></span>Register</button>
+                    <p class="info-error info-message">{{errorMessage}}</p>
+                </form>
+                <div class="below-info">Already have account? <a (click)="navLogin()">Login</a></div>
+            </div>
+        </div>
+    </ng-template>
+</div>

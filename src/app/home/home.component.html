@@ -1,0 +1,68 @@
+<div class="header">
+
+    <img [src]='imageUrl' title='home' class="img-logo" />
+    <p class='text right nav-link' (click)='onLogout()'><i class="fa fa-power-off" aria-hidden="true"></i> Logout</p>
+</div>
+<div class='container-fluid'>
+    <div class='container'>
+        <div class=row>
+            <button class='col-4 btn' [routerLink]="['/home', {'key': 'add'}]"
+                [ngClass]="currentUrlKey=='add'?'bottom-ekart':'bottom-unactive'">Add Moment</button>
+            <button class='col-4 btn' [routerLink]="['/home', {'key': 'view'}]"
+                [ngClass]="currentUrlKey=='view'?'bottom-ekart':'bottom-unactive'">View Moments </button>
+            <button class='col-4 btn' [routerLink]="['/home', {'key': 'profile'}]"
+                [ngClass]="currentUrlKey=='profile'?'bottom-ekart':'bottom-unactive'">Profile</button>
+        </div>
+    </div>
+
+    <div class='col-lg-6 offset-lg-3 col-md-6 offset-md-3 col-sm-12 offset-sm-0' *ngIf="currentUrlKey=='add'"><br>
+            <label><b>Enter new product</b></label><br>
+            <form [formGroup]='addmomentForm' (ngSubmit)="onSubmit()" class='border rounded pad'>
+                <div class="form-group" >
+                    <input type="file" name="image" type="file" formControlName="image"
+                    (change)="processFile($event)" class="form-control-file border" />
+                    <span *ngIf= "imagefromform.invalid && submitClick" class='text-danger'> image required</span>
+                </div>
+                <div class='form-group'>
+                    <textarea class="form-control" formControlName="description" placeholder="describe about the moment" [ngClass]= "descriptionfromform.invalid && submitClick?'is-invalid':''" ></textarea>
+                    <small>letters left: {{100 - descriptionfromform?.value.length}}</small>
+                </div>
+                <div class='form-group'>
+                    <label><small>hashtags: &nbsp;</small></label>
+                    <span *ngFor='let name of synonyms' >#{{name}} &nbsp;</span>
+                    <input type='text' class='form-control form-quantity' #synonym (change)='addedSynonym(synonym.value)' *ngIf='addSynonym'> 
+                        &nbsp;<i class="fa fa-plus pointer" aria-hidden="true" (click)="onAddSynonym()"></i>
+                        <br>
+                    <small><i>hint: #course #certificate #tech...</i></small>
+                </div>
+                
+                <div class='form-group'>    
+                    <button  class="btn btn-5d"> <!--[disabled]="signInForm.invalid"-->
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        Add Product
+                    </button>
+                    <button class='btn btn-danger right' *ngIf='momentId!=null' (click)="onCancelEdit()">cancel</button> <br>
+                    <small class="text-danger" >{{errorMessage}}</small>
+                </div>
+            </form><br>
+        </div>
+        <div class="row container-fluid moments" *ngIf="currentUrlKey=='view'">
+            <div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 d-flex justify-content-center'
+                *ngFor="let product of moments">
+                <div class='row popular padding-category'>
+                    <div class='img-div col-12 full-hr' >
+                        <img class="popImage" src="http://localhost:8080/images/{{product.image}}" alt="Card image"> <!--product.image[0]-->
+                    </div>
+                    <div class='col-12'>
+                        <div class='prod-name'>{{product.description }}</div>
+                        <div class='tags'>{{product.tags | Hashtag }}</div>
+                        <div class="right">
+                            <i class=" fas fa-edit" (click)="onEdit(product)"></i>&nbsp;
+                        <i class=" fas fa-trash" (click)="onDelete(product._id)"></i>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+</div>

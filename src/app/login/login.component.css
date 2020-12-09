@@ -1,0 +1,51 @@
+.auth-form{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:small;
+    font-weight: bold;
+    color:#666666;
+}
+.auth-form .pad{
+    padding:20px;
+}
+.auth-form label{
+    padding-top: 10px;
+    width: 100%;
+}
+
+.auth-form button{
+    width:100%;
+    color:#666666;
+}
+
+.auth-form .reg-info{
+    font-size: small;
+    font-weight: lighter;
+}
+.btn-5d{
+    font-size: 16px!important;
+    color:rgba(255, 255, 255,1)!important;
+    background-color: rgb(235, 34, 41);
+    border-color:   rgb(145, 15, 19); 
+}
+.btn-5d:hover{
+    color:rgba(255, 255, 255, 0.8)!important;
+    background-color: rgb(235, 34, 41,0.8)!important;
+    border-color: rgb(145, 15, 19,0.4)!important;
+}
+.btn-5d:focus{
+    border-color: rgb(145, 15, 19,0.2)!important;
+    outline: 0;
+    box-shadow: 0 0 0 0.16rem rgb(145, 15, 19,0.2)!important;
+}
+.img-logo{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    width:80px;
+}
+.below-info a{
+    cursor: pointer;
+    color: #0062ccba;
+}
+.below-info a:hover{
+    color:#043b77ba;
+}
